@@ -1,0 +1,31 @@
+# Service Control Policies
+
+## Important basic notes
+
+* Permission policies similar to IAM Policies but never grants permissions, instead SCPs specify the maximum permissions for the affected accounts.
+* Only affects IAM users and roles managed by accounts that are part of the organization.
+* Doesn't allow Resouce-based policies directly
+    ==> Need to review resource-based policies, any possible control from organizations
+* Any account has only those permissions permitted by every parent above it. If a permission is blocked at any level above the account, either implicitly (by not being included in an Allow policy statement) or explicitly (by being included in a Deny policy statement), a user or role in the affected account can't use that permission, even if the account administrator attaches the AdministratorAccess IAM policy with */* permissions to the user.
+* SCPs affect only member accounts in the organization. They have no effect on users or roles in the management account.
+* Users and roles must still be granted permissions with appropriate IAM permission policies. A user without any IAM permission policies has no access, even if the applicable SCPs allow all services and all actions.
+    * If a user or role has an IAM permission policy that grants access to an action that is also allowed by the applicable SCPs, the user or role can perform that action.
+    * If a user or role has an IAM permission policy that grants access to an action that is either not allowed or explicitly denied by the applicable SCPs, the user or role can't perform that action.
+    * You can't use SCPs to restrict the following tasks:
+        Any action performed by the management account
+        Any action performed using permissions that are attached to a service-linked role
+        Register for the Enterprise support plan as the root user
+        Change the AWS support level as the root user
+        Provide trusted signer functionality for CloudFront private content
+        Configure reverse DNS for an Amazon Lightsail email server and Amazon EC2 instance as the root user
+        Tasks on some AWS-related services:
+        Alexa Top Sites
+        Alexa Web Information Service
+        Amazon Mechanical Turk
+        Amazon Product Marketing API
+    * SCPs do not affect any service-linked role. Service-linked roles enable other AWS services to integrate with AWS Organizations and can't be restricted by SCPs.
+    * If both a permissions boundary (an advanced IAM feature) and an SCP are present, then the boundary, the SCP, and the identity-based policy must all allow the action.
+
+
+
+
