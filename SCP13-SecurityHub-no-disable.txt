@@ -1,0 +1,18 @@
+This SCP prevents users or roles in any affected account from disabling AWS Security Hub, deleting member accounts or disassociating an account from a master Security Hub account.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "securityhub:DeleteInvitations",
+                "securityhub:DisableSecurityHub",
+                "securityhub:DisassociateFromMasterAccount",
+                "securityhub:DeleteMembers",
+                "securityhub:DisassociateMembers"
+            ],
+            "Resource": "*",
+            "Effect": "Deny"
+        }
+    ]
+}

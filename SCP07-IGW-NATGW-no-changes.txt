@@ -1,0 +1,19 @@
+This SCP restricts IAM principals in an AWS account from changing creating, updating or deleting Internet Gateways and NAT Gateways.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "ec2:CreateNatGateway",
+                "ec2:CreateInternetGateway",
+                "ec2:DeleteNatGateway",
+                "ec2:AttachInternetGateway",
+                "ec2:DeleteInternetGateway",
+                "ec2:DetachInternetGateway"
+            ],
+            "Resource": "*",
+            "Effect": "Deny"
+        }
+    ]
+}

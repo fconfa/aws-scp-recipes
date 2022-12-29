@@ -1,0 +1,133 @@
+This SCP denies access to any operations outside of the specified AWS Region, except for actions in the listed services (These are global services that cannot be whitelisted based on region).
+
+Some of the AWS services are exlcuded (global services): AWS IAM, AWS Organizations, AWS Route53, AWS Budgets, AWS WAF, AWS CloudFront, AWS Global Accelrator, AWS Snowball (Import/Export), AWS Support, AWS Health Dashboard, and Route53 Domain Registrations.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "NotAction": [
+                "a4b:*",
+                "acm:*",
+                "aws-marketplace-management:*",
+                "aws-marketplace:*",
+                "aws-portal:*",
+                "awsbillingconsole:*",
+                "budgets:*",
+                "ce:*",
+                "chime:*",
+                "cloudfront:*",
+                "config:*",
+                "cur:*",
+                "directconnect:*",
+                "ec2:DescribeRegions",
+                "ec2:DescribeTransitGateways",
+                "ec2:DescribeVpnGateways",
+                "fms:*",
+                "globalaccelerator:*",
+                "health:*",
+                "iam:*",
+                "importexport:*",
+                "kms:*",
+                "mobileanalytics:*",
+                "networkmanager:*",
+                "organizations:*",
+                "pricing:*",
+                "route53:*",
+                "route53domains:*",
+                "s3:GetAccountPublic*",
+                "s3:ListAllMyBuckets",
+                "s3:PutAccountPublic*",
+                "shield:*",
+                "sts:*",
+                "support:*",
+                "trustedadvisor:*",
+                "waf-regional:*",
+                "waf:*",
+                "wafv2:*",
+                "wellarchitected:*"
+            ],
+            "Resource": "*",
+            "Effect": "Deny",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-east-1",
+                        "us-west-1"
+                    ]
+                }
+            }
+        }
+    ]
+}
+
+
+TF:
+provider "aws" {
+}
+
+resource "aws_organizations_policy" "scp" {
+  name = "scp_whitelist_region"
+  description = "This SCP denies access to any operations outside of the specified AWS Region, except for actions in the listed services (These are global services that cannot be whitelisted based on region). "
+  content = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "NotAction": [
+        "a4b:*",
+        "acm:*",
+        "aws-marketplace-management:*",
+        "aws-marketplace:*",
+        "aws-portal:*",
+        "awsbillingconsole:*",
+        "budgets:*",
+        "ce:*",
+        "chime:*",
+        "cloudfront:*",
+        "config:*",
+        "cur:*",
+        "directconnect:*",
+        "ec2:DescribeRegions",
+        "ec2:DescribeTransitGateways",
+        "ec2:DescribeVpnGateways",
+        "fms:*",
+        "globalaccelerator:*",
+        "health:*",
+        "iam:*",
+        "importexport:*",
+        "kms:*",
+        "mobileanalytics:*",
+        "networkmanager:*",
+        "organizations:*",
+        "pricing:*",
+        "route53:*",
+        "route53domains:*",
+        "s3:GetAccountPublic*",
+        "s3:ListAllMyBuckets",
+        "s3:PutAccountPublic*",
+        "shield:*",
+        "sts:*",
+        "support:*",
+        "trustedadvisor:*",
+        "waf-regional:*",
+        "waf:*",
+        "wafv2:*",
+        "wellarchitected:*"
+      ],
+      "Resource": "*",
+      "Effect": "Deny",
+      "Condition": {
+        "StringNotEquals": {
+          "aws:RequestedRegion": [
+            "us-east-1",
+            "us-west-1"
+          ]
+        }
+      }
+    }
+  ]
+}
+POLICY
+
+}

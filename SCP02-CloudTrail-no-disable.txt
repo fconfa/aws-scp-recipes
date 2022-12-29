@@ -1,0 +1,40 @@
+This SCP prevents users or roles in any affected account from disabling a CloudTrail log, either directly as a command or through the console.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "cloudtrail:StopLogging",
+                "cloudtrail:DeleteTrail"
+            ],
+            "Resource": "*",
+            "Effect": "Deny"
+        }
+    ]
+}
+
+TF:
+provider "aws" {
+}
+
+resource "aws_organizations_policy" "scp" {
+  name = "scp_cloudtrail"
+  description = "This SCP prevents users or roles in any affected account from disabling a CloudTrail log, either directly as a command or through the console. "
+  content = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "cloudtrail:StopLogging",
+        "cloudtrail:DeleteTrail"
+      ],
+      "Resource": "*",
+      "Effect": "Deny"
+    }
+  ]
+}
+POLICY
+
+}

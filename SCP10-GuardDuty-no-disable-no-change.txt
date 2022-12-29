@@ -1,0 +1,22 @@
+This SCP prevents users or roles in any affected account from disabling or modifying Amazon GuardDuty settings, either directly as a command or through the console.
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "guardduty:DeleteDetector",
+                "guardduty:DeleteInvitations",
+                "guardduty:DeleteIPSet",
+                "guardduty:DeleteMembers",
+                "guardduty:DeleteThreatIntelSet",
+                "guardduty:DisassociateFromMasterAccount",
+                "guardduty:DisassociateMembers",
+                "guardduty:StopMonitoringMembers",
+                "guardduty:UpdateDetector"
+            ],
+            "Resource": "*",
+            "Effect": "Deny"
+        }
+    ]
+}
